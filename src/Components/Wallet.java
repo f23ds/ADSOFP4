@@ -8,18 +8,18 @@ package Components;
 public class Wallet {
 
   private String username;
-  private String password;
+  private String publicKey;
   private double balance;
 
   /**
    * Constructor para la clase wallet
    * @param username
-   * @param password
+   * @param publicKey
    * @param balance
    */
-  public Wallet(String username, String password, double balance) {
+  public Wallet(String username, String publicKey, double balance) {
     this.username = username;
-    this.password = password;
+    this.publicKey = publicKey;
     this.balance = balance;
   }
 
@@ -32,12 +32,12 @@ public class Wallet {
     this.username = username;
   }
 
-  public String getPassword() {
-    return password;
+  public String getPublicKey() {
+    return publicKey;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setPublicKey(String publicKey) {
+    this.publicKey = publicKey;
   }
 
   public double getBalance() {

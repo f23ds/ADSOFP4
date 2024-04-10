@@ -11,13 +11,14 @@ public class Subnet {
 
   private final int id = ++idCounter;
   private static int idCounter = -1;
-  private ArrayList<Node> nodes = new ArrayList<Node>();
+  private ArrayList<Node> nodes;
 
   /**
    * Constructor para la subred
    * @param nodes
    */
   public Subnet(Node... nodeList) {
+    this.nodes = new ArrayList<Node>();
     Collections.addAll(nodes, nodeList);
   }
 

@@ -1,5 +1,7 @@
 package Components;
 
+import Exceptions.*;
+// import Notifications.*;
 import java.util.*;
 
 /**
@@ -10,8 +12,9 @@ import java.util.*;
 public class BlockchainNetwork {
 
   private String name;
-  private ArrayList<Node> nodes = new ArrayList<Node>();
-  private ArrayList<Subnet> subnets = new ArrayList<Subnet>();
+  private ArrayList<Node> nodes;
+  private ArrayList<Subnet> subnets;
+  private ArrayList<Object> connections;
 
   /**
    * Constructor para la clase BlockchainNetwork
@@ -19,32 +22,69 @@ public class BlockchainNetwork {
    */
   public BlockchainNetwork(String name) {
     this.name = name;
+    this.nodes = new ArrayList<Node>();
+    this.subnets = new ArrayList<Subnet>();
+    this.connections = new ArrayList<Object>();
   }
 
-  public BlockchainNetwork connect(Object object) {
-    /* TODO: POSIBLE EXCEPCIÓN */
-    System.out.print(String.format("%s - new peer connected: ", this.name));
-
-    if (object instanceof MiningNode) {
-      MiningNode miningNode = (MiningNode) object;
-      this.nodes.add(miningNode);
-
-      System.out.println(miningNode.toString());
-    }
+  /**
+   * Método para añadir nodos, nodos mineros o subredes a la red de blockhain
+   * @param object objeto genérico a añadir
+   * @return devuleve la red construida
+   * @throws ConnectionException para nodos ya conectados
+   * @throws DuplicateConnectionException para nodos conectados a otras redes o subredes
+   */
+  public BlockchainNetwork connect(Object object)
+    throws ConnectionException, DuplicateConnectionException {
+    String connectedStr = String.format("%s - new peer connected: ", this.name);
 
     if (object instanceof Node) {
       Node node = (Node) object;
+
+      /* Consideramos la excepción en la que ya se encuentra el nodo conectado */
+      if (nodes.contains(object)) throw new ConnectionException(node);
+
+      /* Consideramos la excepción en la que el nodo está conectado a otra red */
+      for (Subnet subnet : subnets) {
+        if (
+          subnet.getNodes().contains(object)
+        ) throw new DuplicateConnectionException(node);
+      }
+
+      /* Añadimos el nodo al array de nodos */
       this.nodes.add(node);
-      System.out.println(node.toString());
+      System.out.println(connectedStr + node.toString());
     }
 
     if (object instanceof Subnet) {
       Subnet subnet = (Subnet) object;
+
+      /* Añadimos la subred al array de subredes */
       this.subnets.add(subnet);
-      System.out.println(subnet.toString());
+      System.out.println(connectedStr + subnet.toString());
     }
 
+    this.connections.add(object);
+
     return this;
+  }
+
+  @Override
+  public String toString() {
+    String connectionsStr = "";
+
+    for (Object object : this.connections) {
+      connectionsStr += "* " + object.toString() + "\n";
+    }
+
+    return (
+      String.format(
+        "%s consists of %d elements:\n",
+        this.name,
+        this.connections.size()
+      ) +
+      connectionsStr
+    );
   }
 
   /* GETTERS AND SETTERS */
