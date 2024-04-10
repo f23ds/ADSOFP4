@@ -1,5 +1,6 @@
 package Components;
 
+import Exceptions.TransactionException;
 import Interfaces.*;
 import java.util.*;
 
@@ -30,11 +31,42 @@ public class Node implements IConnectable {
 
   /**
    * Función para crear una transacción desde la cartera del nodo a otra cartera
-   * @param wallet del destinatario
+   * @param walletR del destinatario
    * @param value valor de la transacción
    * @return transacción creada
+   * @throws TransactionException para errores al crear la transacción
    */
-  public Transaction createTransaction(Wallet wallet, double value) {
+  public Transaction createTransaction(Wallet walletR, double value)
+    throws TransactionException {
+    if (value < 0) throw new TransactionException(
+      this.getWallet().getPublicKey(),
+      walletR.getPublicKey(),
+      value
+    );
+    /* Creamos la transacción */
+    Transaction transaction = new Transaction(this.getWallet(), walletR, value);
+
+    /* La añadimos */
+    this.transactions.add(transaction);
+
+    /* La devolvemos */
+    return transaction;
+  }
+
+  /**
+   * Función para crear una transacción desde la cartera del nodo a otra cartera
+   * @param String con la public key de la cartera del destinatario
+   * @param value valor de la transacción
+   * @return transacción creada
+   * @throws TransactionException para errores al crear la transacción
+   */
+  public Transaction createTransaction(String publicKey, double value)
+    throws TransactionException {
+    if (value < 0) throw new TransactionException(
+      this.getWallet().getPublicKey(),
+      publicKey,
+      value
+    );
     /* Creamos la transacción */
     Transaction transaction = new Transaction(this.getWallet(), wallet, value);
 
@@ -63,7 +95,7 @@ public class Node implements IConnectable {
       String.format(
         "u: %s, PK:%s, balance: %.0f | @",
         wallet.getUsername(),
-        wallet.getPassword(),
+        wallet.getPublicKey(),
         wallet.getBalance()
       ) +
       this.fullName()

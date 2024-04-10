@@ -21,19 +21,19 @@ public class TesterMainExercise2 extends TesterMainExercise1 {
     }
   }
 
-  // public void createTransactions() {
-  //   try {
-  //     Transaction tr1 = node.createTransaction(wallet2, 10);
-  //     network.broadcast(new TransactionNotification(tr1));
-  //     Transaction tr2 = miningNode.createTransaction(
-  //       wallet1.getPublicKey(),
-  //       -1
-  //     ); // negative fails
-  //     network.broadcast(new TransactionNotification(tr2));
-  //   } catch (TransactionException e) {
-  //     System.err.println(e);
-  //   }
-  // }
+  public void createTransactions() {
+    try {
+      Transaction tr1 = node.createTransaction(wallet2, 10);
+      network.broadcast(new TransactionNotification(tr1));
+      Transaction tr2 = miningNode.createTransaction(
+        wallet1.getPublicKey(),
+        -1
+      ); // negative fails
+      network.broadcast(new TransactionNotification(tr2));
+    } catch (TransactionException e) {
+      System.err.println(e);
+    }
+  }
 
   public static void main(String[] args)
     throws ConnectionException, DuplicateConnectionException {

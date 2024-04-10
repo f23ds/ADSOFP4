@@ -9,21 +9,34 @@ public class Transaction {
 
   private final int id = ++idCounter;
   private static int idCounter = -1;
-  private String pswEmisor;
-  private String pswReceiver;
+  private String pkEmisor;
+  private String pkReceiver;
   private double value;
 
   /**
    * Constructor para la clase Transaction
-   * @param id
-   * @param pswEmisor
-   * @param pswReceiver
-   * @param value
+   * @param walletE cartera emisora
+   * @param walletR cartera receptora
+   * @param value valor de la transacción
    */
-  public Transaction(Wallet wallet1, Wallet wallet2, double value) {
-    this.pswEmisor = wallet1.getPassword();
-    this.pswReceiver = wallet2.getPassword();
+  public Transaction(Wallet walletE, Wallet walletR, double value) {
+    this.pkEmisor = walletE.getPublicKey();
+    this.pkReceiver = walletR.getPublicKey();
     this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return (
+      "Transaction " +
+      id +
+      "| from: " +
+      pkEmisor +
+      ", to: " +
+      pkReceiver +
+      ", quantity: " +
+      value
+    );
   }
 
   /* GETTERS AND SETTERS */
@@ -32,20 +45,20 @@ public class Transaction {
     return id;
   }
 
-  public String getPswEmisor() {
-    return pswEmisor;
+  public String getpkEmisor() {
+    return pkEmisor;
   }
 
-  public void setPswEmisor(String pswEmisor) {
-    this.pswEmisor = pswEmisor;
+  public void setpkEmisor(String pkEmisor) {
+    this.pkEmisor = pkEmisor;
   }
 
-  public String getPswReceiver() {
-    return pswReceiver;
+  public String getpkReceiver() {
+    return pkReceiver;
   }
 
-  public void setPswReceiver(String pswReceiver) {
-    this.pswReceiver = pswReceiver;
+  public void setpkReceiver(String pkReceiver) {
+    this.pkReceiver = pkReceiver;
   }
 
   public double getValue() {
