@@ -1,5 +1,6 @@
 package Components;
 
+import Interfaces.*;
 import java.util.*;
 
 /**
@@ -7,11 +8,12 @@ import java.util.*;
  *
  * @author Fabio Desio Alba López
  */
-public class Subnet {
+public class Subnet implements IConnectable {
 
   private final int id = ++idCounter;
   private static int idCounter = -1;
   private ArrayList<Node> nodes;
+  private IConnectable parent;
 
   /**
    * Constructor para la subred
@@ -19,7 +21,24 @@ public class Subnet {
    */
   public Subnet(Node... nodeList) {
     this.nodes = new ArrayList<Node>();
-    Collections.addAll(nodes, nodeList);
+    for (Node node : nodeList) {
+      node.setParent(this);
+      this.nodes.add(node);
+    }
+    this.parent = null;
+  }
+
+  /* ----------------------------- MÉTODOS DE ICONNECTABLE ----------------------------- */
+
+  @Override
+  public void broadcast(IMessage msg) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'broadcast'");
+  }
+
+  @Override
+  public IConnectable getParent() {
+    return this.parent;
   }
 
   @Override
@@ -49,5 +68,9 @@ public class Subnet {
 
   public void setNodes(ArrayList<Node> nodes) {
     this.nodes = nodes;
+  }
+
+  public void setParent(IConnectable parent) {
+    this.parent = parent;
   }
 }

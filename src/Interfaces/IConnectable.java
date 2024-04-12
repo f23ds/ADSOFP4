@@ -7,9 +7,7 @@ package Interfaces;
  */
 public interface IConnectable {
   /**
-   * Procesamiento del mensaje al:
-   * a) Ejecutarlo sobre un nodo
-   * b) Redistribuirlo sobre una red o subred
+   * Método abstracto para el procesar el mensaje por un nodo o redistribuirlo por la red o subred
    * @param msg mensaje a procesar
    */
   public void broadcast(IMessage msg);

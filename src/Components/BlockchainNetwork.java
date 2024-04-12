@@ -1,6 +1,8 @@
 package Components;
 
 import Exceptions.*;
+import Interfaces.IConnectable;
+import Interfaces.IMessage;
 // import Notifications.*;
 import java.util.*;
 
@@ -9,7 +11,7 @@ import java.util.*;
  *
  * @author Fabio Desio y Alba Lopez
  */
-public class BlockchainNetwork {
+public class BlockchainNetwork implements IConnectable {
 
   private String name;
   private ArrayList<Node> nodes;
@@ -34,6 +36,7 @@ public class BlockchainNetwork {
    * @throws ConnectionException para nodos ya conectados
    * @throws DuplicateConnectionException para nodos conectados a otras redes o subredes
    */
+  /* TODO: revisar cabeceras y quitar instanceof */
   public BlockchainNetwork connect(Object object)
     throws ConnectionException, DuplicateConnectionException {
     String connectedStr = String.format("%s - new peer connected: ", this.name);
@@ -67,6 +70,19 @@ public class BlockchainNetwork {
     this.connections.add(object);
 
     return this;
+  }
+
+  /* ----------------------------- MÉTODOS DE ICONNECTABLE ----------------------------- */
+
+  @Override
+  public void broadcast(IMessage msg) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'broadcast'");
+  }
+
+  @Override
+  public IConnectable getParent() {
+    return null;
   }
 
   @Override

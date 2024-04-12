@@ -8,17 +8,17 @@ public class Node implements IConnectable {
 
   private final int id = ++idCounter;
   private static int idCounter = -1;
-  // Ulid id = UlidCreator.getUlid();
   private Wallet wallet;
   private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+  private IConnectable parent;
 
   /**
    * Constructor del nodo
    * @param wallet
-   * @param transactions
    */
   public Node(Wallet wallet) {
     this.wallet = wallet;
+    this.parent = null;
   }
 
   /**
@@ -77,16 +77,17 @@ public class Node implements IConnectable {
     return transaction;
   }
 
+  /* ----------------------------- MÉTODOS DE ICONNECTABLE ----------------------------- */
+
   @Override
   public void broadcast(IMessage msg) {
     // TODO Auto-generated method stub
-
+    throw new UnsupportedOperationException("Unimplemented method 'broadcast'");
   }
 
   @Override
   public IConnectable getParent() {
-    // TODO Auto-generated method stub
-    return null;
+    return this.parent;
   }
 
   @Override
@@ -121,5 +122,9 @@ public class Node implements IConnectable {
 
   public void setTransactions(ArrayList<Transaction> transactions) {
     this.transactions = transactions;
+  }
+
+  public void setParent(IConnectable parent) {
+    this.parent = parent;
   }
 }
