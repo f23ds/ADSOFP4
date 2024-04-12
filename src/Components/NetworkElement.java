@@ -11,8 +11,9 @@ import Interfaces.IConnectable;
  */
 public abstract class NetworkElement implements IConnectable {
 
-  @SuppressWarnings("unused")
-  private IConnectable parent;
+  protected final int id = ++idCounter;
+  protected static int idCounter = -1;
+  protected IConnectable parent;
 
   /**
    * Constructor de la clase NetworkElement
@@ -23,7 +24,7 @@ public abstract class NetworkElement implements IConnectable {
 
   @Override
   public IConnectable getParent() {
-    return null;
+    return this.parent;
   }
 
   /**
@@ -33,4 +34,10 @@ public abstract class NetworkElement implements IConnectable {
   public void setParent(IConnectable parent) {
     this.parent = parent;
   }
+
+  public abstract boolean isSubnet();
+  public abstract boolean isNode();
+
+  public abstract Node getNode();
+  public abstract Subnet getSubnet();
 }

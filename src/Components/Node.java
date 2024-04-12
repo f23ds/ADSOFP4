@@ -4,13 +4,10 @@ import Exceptions.TransactionException;
 import Interfaces.*;
 import java.util.*;
 
-public class Node implements IConnectable {
+public class Node extends NetworkElement {
 
-  private final int id = ++idCounter;
-  private static int idCounter = -1;
   private Wallet wallet;
   private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-  private IConnectable parent;
 
   /**
    * Constructor del nodo
@@ -85,9 +82,20 @@ public class Node implements IConnectable {
     throw new UnsupportedOperationException("Unimplemented method 'broadcast'");
   }
 
-  @Override
-  public IConnectable getParent() {
-    return this.parent;
+  public boolean isSubnet() {
+    return false;
+  }
+
+  public boolean isNode() {
+    return true;
+  }
+
+  public Node getNode() {
+    return this;
+  }
+
+  public Subnet getSubnet() {
+    return null;
   }
 
   @Override
@@ -122,9 +130,5 @@ public class Node implements IConnectable {
 
   public void setTransactions(ArrayList<Transaction> transactions) {
     this.transactions = transactions;
-  }
-
-  public void setParent(IConnectable parent) {
-    this.parent = parent;
   }
 }

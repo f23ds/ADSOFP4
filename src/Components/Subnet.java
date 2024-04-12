@@ -8,12 +8,9 @@ import java.util.*;
  *
  * @author Fabio Desio Alba López
  */
-public class Subnet implements IConnectable {
+public class Subnet extends NetworkElement {
 
-  private final int id = ++idCounter;
-  private static int idCounter = -1;
   private ArrayList<Node> nodes;
-  private IConnectable parent;
 
   /**
    * Constructor para la subred
@@ -36,9 +33,20 @@ public class Subnet implements IConnectable {
     throw new UnsupportedOperationException("Unimplemented method 'broadcast'");
   }
 
-  @Override
-  public IConnectable getParent() {
-    return this.parent;
+  public boolean isSubnet() {
+    return true;
+  }
+
+  public boolean isNode() {
+    return false;
+  }
+
+  public Node getNode() {
+    return null;
+  }
+
+  public Subnet getSubnet() {
+    return this;
   }
 
   @Override
@@ -68,9 +76,5 @@ public class Subnet implements IConnectable {
 
   public void setNodes(ArrayList<Node> nodes) {
     this.nodes = nodes;
-  }
-
-  public void setParent(IConnectable parent) {
-    this.parent = parent;
   }
 }
