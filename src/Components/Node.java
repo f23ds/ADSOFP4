@@ -8,10 +8,10 @@ public class Node implements IConnectable {
 
   private final int id = ++idCounter;
   private static int idCounter = -1;
-  // Ulid id = UlidCreator.getUlid();
   private Wallet wallet;
-  private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-
+  private ArrayList<Transaction> transactions;
+  private IConnectable parent;
+  
   /**
    * Constructor del nodo
    * @param wallet
@@ -19,6 +19,8 @@ public class Node implements IConnectable {
    */
   public Node(Wallet wallet) {
     this.wallet = wallet;
+    this.transactions = new ArrayList<Transaction>();
+    this.parent = null;
   }
 
   /**
@@ -79,14 +81,7 @@ public class Node implements IConnectable {
 
   @Override
   public void broadcast(IMessage msg) {
-    // TODO Auto-generated method stub
 
-  }
-
-  @Override
-  public IConnectable getParent() {
-    // TODO Auto-generated method stub
-    return null;
   }
 
   @Override
@@ -121,5 +116,14 @@ public class Node implements IConnectable {
 
   public void setTransactions(ArrayList<Transaction> transactions) {
     this.transactions = transactions;
+  }
+
+  @Override
+  public IConnectable getParent() {
+    return parent;
+  }
+
+  public void setParent(IConnectable parent) {
+    this.parent = parent;
   }
 }

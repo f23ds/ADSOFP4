@@ -45,5 +45,5 @@ public class TesterMainExercise1 {
     System.out.println(tme.network);
     System.out.println(tme.node.fullName()); // prints the name of the node
     System.out.println("End of party!");
-  }
+  } 
 }

@@ -15,7 +15,7 @@ public interface IConnectable {
   public void broadcast(IMessage msg);
 
   /**
-   * Para soportar subredes dentro de redes
+   * Función para gettear el padre del objeto IConnectable
    * @return objeto IConnectable padre si lo hay, null en caso contrario
    */
   public IConnectable getParent();
