@@ -1,8 +1,6 @@
 package Components;
 
 import Exceptions.*;
-import Interfaces.IConnectable;
-import Interfaces.IMessage;
 // import Notifications.*;
 import java.util.*;
 
@@ -11,7 +9,7 @@ import java.util.*;
  *
  * @author Fabio Desio y Alba Lopez
  */
-public class BlockchainNetwork implements IConnectable {
+public class BlockchainNetwork {
 
   private String name;
   private ArrayList<Node> nodes;
@@ -55,7 +53,6 @@ public class BlockchainNetwork implements IConnectable {
 
       /* Añadimos el nodo al array de nodos */
       this.nodes.add(node);
-      node.setParent(this);
       System.out.println(connectedStr + node.toString());
     }
 
@@ -114,24 +111,5 @@ public class BlockchainNetwork implements IConnectable {
 
   public void setSubnets(ArrayList<Subnet> subnets) {
     this.subnets = subnets;
-  }
-
-  /**
-   * Método de la interfaz IConnectable para mandar la transacción a todos los nodos y subredes de la red
-   * @param msg
-   */
-  @Override
-  public void broadcast(IMessage msg) {
-    for (Node node : nodes) node.broadcast(msg);
-    for (Subnet subnet : subnets) subnet.broadcast(msg);
-  }
-
-  /**
-   * Método de la interfaz IConnectable para gettear el padre
-   * @return null pues la red no tiene padre
-   */
-  @Override
-  public IConnectable getParent() {
-    return null;
   }
 }
