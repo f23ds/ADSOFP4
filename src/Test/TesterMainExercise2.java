@@ -6,8 +6,7 @@ import Notifications.*;
 
 public class TesterMainExercise2 extends TesterMainExercise1 {
 
-  public void buildFaultyNetwork()
-    throws ConnectionException, DuplicateConnectionException {
+  public void buildFaultyNetwork() {
     super.buildNetwork();
     try {
       this.network.connect(this.node); // cannot connect: node already in the network
@@ -35,8 +34,7 @@ public class TesterMainExercise2 extends TesterMainExercise1 {
     }
   }
 
-  public static void main(String[] args)
-    throws ConnectionException, DuplicateConnectionException {
+  public static void main(String[] args) {
     TesterMainExercise2 tme = new TesterMainExercise2();
     tme.buildFaultyNetwork();
     tme.createTransactions();

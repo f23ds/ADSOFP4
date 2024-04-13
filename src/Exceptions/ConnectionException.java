@@ -7,7 +7,7 @@ import Components.*;
  *
  * @author Fabio Desio Alba López
  */
-public class ConnectionException extends Exception {
+public class ConnectionException extends RuntimeException {
 
   private Node node;
   public static final String ANSI_RESET = "\u001B[0m";

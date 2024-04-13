@@ -5,7 +5,7 @@ package Exceptions;
  *
  * @author Fabio Desio Alba López
  */
-public class TransactionException extends Exception {
+public class TransactionException extends RuntimeException {
 
   private String keySource;
   private String keyRec;
