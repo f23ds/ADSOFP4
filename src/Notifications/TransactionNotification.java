@@ -16,7 +16,7 @@ public class TransactionNotification implements IMessage {
 
   /**
    * Constructor de la clase TransactionNotification
-   * @param transaction transacción 
+   * @param transaction transacción
    */
   public TransactionNotification(Transaction transaction) {
     this.transaction = transaction;
@@ -25,6 +25,16 @@ public class TransactionNotification implements IMessage {
   @Override
   public String getMessage() {
     return transaction.toString();
+  }
+
+  @Override
+  public boolean isTransactionNotification() {
+    return true;
+  }
+
+  @Override
+  public TransactionNotification getTransactionNotification() {
+    return this;
   }
 
   public void process(Node n) {
@@ -43,7 +53,13 @@ public class TransactionNotification implements IMessage {
       s.fullName() +
       "] " +
       this.getMessage() +
-      "\nBroadcasting to " + s.getNodes().size() + " nodes:"
+      "\nBroadcasting to " +
+      s.getNodes().size() +
+      " nodes:"
     );
+  }
+
+  public Transaction getTransaction() {
+    return transaction;
   }
 }

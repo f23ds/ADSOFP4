@@ -2,12 +2,13 @@ package Components;
 
 import Exceptions.TransactionException;
 import Interfaces.*;
+import Notifications.TransactionNotification;
 import java.util.*;
 
 public class Node extends NetworkElement {
 
   private Wallet wallet;
-  private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+  private ArrayList<Transaction> transactions;
 
   /**
    * Constructor del nodo
@@ -16,6 +17,7 @@ public class Node extends NetworkElement {
   public Node(Wallet wallet) {
     this.wallet = wallet;
     this.parent = null;
+    this.transactions = new ArrayList<Transaction>();
   }
 
   /**
@@ -43,9 +45,6 @@ public class Node extends NetworkElement {
     /* Creamos la transacción */
     Transaction transaction = new Transaction(this.getWallet(), walletR, value);
 
-    /* La añadimos */
-    this.transactions.add(transaction);
-
     /* La devolvemos */
     return transaction;
   }
@@ -67,9 +66,6 @@ public class Node extends NetworkElement {
     /* Creamos la transacción */
     Transaction transaction = new Transaction(this.getWallet(), wallet, value);
 
-    /* La añadimos */
-    this.transactions.add(transaction);
-
     /* La devolvemos */
     return transaction;
   }
@@ -79,6 +75,9 @@ public class Node extends NetworkElement {
   @Override
   public void broadcast(IMessage msg) {
     msg.process(this);
+    if (msg.isTransactionNotification()) this.transactions.add(
+        msg.getTransactionNotification().getTransaction()
+      );
   }
 
   public boolean isSubnet() {

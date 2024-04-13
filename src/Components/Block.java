@@ -3,6 +3,11 @@ package Components;
 import blockchain.utils.BlockConfig;
 import java.util.*;
 
+/**
+ * Clase para dar soporte a los bloques de la red
+ *
+ * @author Fabio Desio Alba López
+ */
 public class Block {
 
   private final int id;
@@ -26,5 +31,47 @@ public class Block {
     this.isValidated = false;
     this.hash = null;
     this.prevBlock = null;
+  }
+
+  public int getVersion() {
+    return version;
+  }
+
+  public int getNonce() {
+    return nonce;
+  }
+
+  public int getTimestamp() {
+    return timestamp;
+  }
+
+  public int getDifficulty() {
+    return difficulty;
+  }
+
+  public Transaction getTransaction() {
+    return transaction;
+  }
+
+  public String getHash() {
+    return hash;
+  }
+
+  public Block getPrevBlock() {
+    return prevBlock;
+  }
+
+  /**
+   * @return boolean return the isValidated
+   */
+  public boolean isIsValidated() {
+    return isValidated;
+  }
+
+  /**
+   * @param isValidated the isValidated to set
+   */
+  public void setIsValidated(boolean isValidated) {
+    this.isValidated = isValidated;
   }
 }

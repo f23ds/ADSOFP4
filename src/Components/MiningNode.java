@@ -1,5 +1,7 @@
 package Components;
 
+import Interfaces.*;
+import blockchain.utils.*;
 import java.util.*;
 
 /**
@@ -7,7 +9,7 @@ import java.util.*;
  *
  * @author Fabio Desio Alba López
  */
-public class MiningNode extends Node {
+public class MiningNode extends Node implements IMiningMethod {
 
   private double capacity; // En MIPS
   private List<Block> blocks;
@@ -34,5 +36,29 @@ public class MiningNode extends Node {
 
   public List<Block> getBlocks() {
     return blocks;
+  }
+
+  @Override
+  public String createHash(Block block) {
+    Block prevBlock = block.getPrevBlock();
+    return CommonUtils.sha256(
+      String.format(
+        block.getVersion() +
+        (prevBlock == null ? BlockConfig.GENESIS_BLOCK : prevBlock.getHash()) +
+        block.getTimestamp() +
+        block.getDifficulty() +
+        block.getNonce()
+      )
+    );
+  }
+
+  @Override
+  public Block mineBlock(
+    Transaction transaction,
+    Block previousConfirmedBlock,
+    String minerKey
+  ) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'mineBlock'");
   }
 }

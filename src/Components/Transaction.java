@@ -12,6 +12,7 @@ public class Transaction {
   private String pkEmisor;
   private String pkReceiver;
   private int value;
+  private boolean isConfirmed;
 
   /**
    * Constructor para la clase Transaction
@@ -23,6 +24,7 @@ public class Transaction {
     this.pkEmisor = walletE.getPublicKey();
     this.pkReceiver = walletR.getPublicKey();
     this.value = value;
+    this.isConfirmed = false;
   }
 
   @Override
@@ -67,5 +69,13 @@ public class Transaction {
 
   public void setValue(int value) {
     this.value = value;
+  }
+
+  public boolean isConfirmed() {
+    return isConfirmed;
+  }
+
+  public void setConfirmed(boolean isConfirmed) {
+    this.isConfirmed = isConfirmed;
   }
 }
