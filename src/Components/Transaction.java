@@ -11,7 +11,7 @@ public class Transaction {
   private static int idCounter = -1;
   private String pkEmisor;
   private String pkReceiver;
-  private double value;
+  private int value;
 
   /**
    * Constructor para la clase Transaction
@@ -19,7 +19,7 @@ public class Transaction {
    * @param walletR cartera receptora
    * @param value valor de la transacción
    */
-  public Transaction(Wallet walletE, Wallet walletR, double value) {
+  public Transaction(Wallet walletE, Wallet walletR, int value) {
     this.pkEmisor = walletE.getPublicKey();
     this.pkReceiver = walletR.getPublicKey();
     this.value = value;
@@ -61,11 +61,11 @@ public class Transaction {
     this.pkReceiver = pkReceiver;
   }
 
-  public double getValue() {
+  public int getValue() {
     return value;
   }
 
-  public void setValue(double value) {
+  public void setValue(int value) {
     this.value = value;
   }
 }

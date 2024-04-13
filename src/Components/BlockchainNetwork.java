@@ -32,12 +32,17 @@ public class BlockchainNetwork implements IConnectable {
    * @return devuleve la red construida
    * @throws ConnectionException para nodos ya conectados
    * @throws DuplicateConnectionException para nodos conectados a otras redes o subredes
+   * @throws NullPointerException para argumentos nulos
    */
   public BlockchainNetwork connect(NetworkElement element)
-    throws ConnectionException, DuplicateConnectionException {
+    throws ConnectionException, DuplicateConnectionException, NullPointerException {
     String connectedStr = String.format("%s - new peer connected: ", this.name);
     Node node;
     Subnet subnet;
+
+    if (element == null) throw new NullPointerException(
+      "El elemento no puede ser nulo"
+    );
 
     if (element.isNode()) {
       node = element.getNode();
@@ -45,15 +50,16 @@ public class BlockchainNetwork implements IConnectable {
       if (elements.contains(element)) throw new ConnectionException(node);
 
       /* Consideramos la excepción en la que el nodo está conectado a otra red */
-      elements
+      Optional<Subnet> probSubnet = elements
         .stream()
-        .filter(NetworkElement::isSubnet) // Filtra solo los elementos que son Subnet
-        .map(NetworkElement::getSubnet) // Convierte a Subnet
-        .forEach(s -> {
-          if (s.getNodes().contains(element)) {
-            new DuplicateConnectionException(node);
-          }
-        });
+        .filter(NetworkElement::isSubnet)
+        .map(NetworkElement::getSubnet)
+        .filter(s -> s.getNodes().contains(element))
+        .findFirst();
+
+      if (probSubnet.isPresent()) {
+        throw new DuplicateConnectionException(node);
+      }
 
       /* Añadimos el nodo al array de nodos */
       System.out.println(connectedStr + node.toString());
@@ -62,7 +68,6 @@ public class BlockchainNetwork implements IConnectable {
     if (element.isSubnet()) {
       subnet = element.getSubnet();
 
-      /* Añadimos la subred al array de subredes */
       System.out.println(connectedStr + subnet.toString());
     }
 
@@ -74,7 +79,9 @@ public class BlockchainNetwork implements IConnectable {
   /* ----------------------------- MÉTODOS DE ICONNECTABLE ----------------------------- */
 
   @Override
-  public void broadcast(IMessage msg) {}
+  public void broadcast(IMessage msg) {
+    elements.stream().forEach(e -> e.broadcast(msg));
+  }
 
   @Override
   public IConnectable getParent() {

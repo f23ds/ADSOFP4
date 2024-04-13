@@ -39,6 +39,6 @@ public class TesterMainExercise2 extends TesterMainExercise1 {
     throws ConnectionException, DuplicateConnectionException {
     TesterMainExercise2 tme = new TesterMainExercise2();
     tme.buildFaultyNetwork();
-    // tme.createTransactions();
+    tme.createTransactions();
   }
 }

@@ -33,7 +33,7 @@ public class Node extends NetworkElement {
    * @return transacción creada
    * @throws TransactionException para errores al crear la transacción
    */
-  public Transaction createTransaction(Wallet walletR, double value)
+  public Transaction createTransaction(Wallet walletR, int value)
     throws TransactionException {
     if (value < 0) throw new TransactionException(
       this.getWallet().getPublicKey(),
@@ -57,7 +57,7 @@ public class Node extends NetworkElement {
    * @return transacción creada
    * @throws TransactionException para errores al crear la transacción
    */
-  public Transaction createTransaction(String publicKey, double value)
+  public Transaction createTransaction(String publicKey, int value)
     throws TransactionException {
     if (value < 0) throw new TransactionException(
       this.getWallet().getPublicKey(),
@@ -78,8 +78,7 @@ public class Node extends NetworkElement {
 
   @Override
   public void broadcast(IMessage msg) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'broadcast'");
+    msg.process(this);
   }
 
   public boolean isSubnet() {

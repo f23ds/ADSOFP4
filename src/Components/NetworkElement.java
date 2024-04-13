@@ -40,4 +40,6 @@ public abstract class NetworkElement implements IConnectable {
 
   public abstract Node getNode();
   public abstract Subnet getSubnet();
+
+  public abstract String fullName();
 }

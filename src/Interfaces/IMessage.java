@@ -18,13 +18,22 @@ public interface IMessage {
    * Procesamiento por un nodo
    * @param n nodo
    */
-  public default void process(Node n) {
+  public default void process(NetworkElement element) {
+    boolean isNode = element.isNode() ? true : false;
+    String msg = this.getMessage();
+
     System.out.println(
       "[" +
-      n.fullName() +
-      "]" +
-      " - Received notification - Nex Tx: " +
-      this.getMessage()
+      element.fullName() +
+      "] " +
+      (
+        isNode
+          ? " - Received notification - Nex Tx: " + msg
+          : msg +
+          "\nBroadcasting to " +
+          element.getSubnet().getNodes().size() +
+          " nodes:"
+      )
     );
   }
 }

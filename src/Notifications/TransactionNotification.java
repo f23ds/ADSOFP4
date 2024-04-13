@@ -1,6 +1,6 @@
 package Notifications;
 
-import Components.Transaction;
+import Components.*;
 import Interfaces.IMessage;
 
 /**
@@ -25,5 +25,25 @@ public class TransactionNotification implements IMessage {
   @Override
   public String getMessage() {
     return transaction.toString();
+  }
+
+  public void process(Node n) {
+    System.out.println(
+      "[" +
+      n.fullName() +
+      "]" +
+      " - Received notification - Nex Tx: " +
+      this.getMessage()
+    );
+  }
+
+  public void process(Subnet s) {
+    System.out.println(
+      "[" +
+      s.fullName() +
+      "] " +
+      this.getMessage() +
+      "\nBroadcasting to " + s.getNodes().size() + " nodes:"
+    );
   }
 }

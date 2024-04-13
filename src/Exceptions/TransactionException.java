@@ -9,7 +9,7 @@ public class TransactionException extends Exception {
 
   private String keySource;
   private String keyRec;
-  private double value;
+  private int value;
   public static final String ANSI_RESET = "\u001B[0m";
   public static final String ANSI_RED = "\u001B[31m";
 
@@ -19,7 +19,7 @@ public class TransactionException extends Exception {
    * @param keyRec public key de la cartera receptora
    * @param value valor de la transacción
    */
-  public TransactionException(String keySource, String keyRec, double value) {
+  public TransactionException(String keySource, String keyRec, int value) {
     this.keySource = keySource;
     this.keyRec = keyRec;
     this.value = value;

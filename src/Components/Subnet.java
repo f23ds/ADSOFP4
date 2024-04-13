@@ -25,12 +25,17 @@ public class Subnet extends NetworkElement {
     this.parent = null;
   }
 
+  @Override
+  public String fullName() {
+    return String.format("Subnet#%03d", this.id);
+  }
+
   /* ----------------------------- MÉTODOS DE ICONNECTABLE ----------------------------- */
 
   @Override
   public void broadcast(IMessage msg) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'broadcast'");
+    msg.process(this);
+    nodes.stream().forEach(n -> n.broadcast(msg));
   }
 
   public boolean isSubnet() {
@@ -48,6 +53,9 @@ public class Subnet extends NetworkElement {
   public Subnet getSubnet() {
     return this;
   }
+
+  /* ----------------------------- MÉTODOS DE IMESSAGE ----------------------------- */
+
 
   @Override
   public String toString() {
