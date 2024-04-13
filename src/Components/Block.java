@@ -10,17 +10,24 @@ import java.util.*;
  */
 public class Block {
 
+  @SuppressWarnings("unused")
   private final int id;
+
   private static int idCounter = -1;
-  private final int version;
+  private int version;
   private final int nonce;
   private final int timestamp;
   private final int difficulty;
   private final Transaction transaction;
   private boolean isValidated;
-  private final String hash;
+  private String hash;
   private final Block prevBlock;
+  private String minerKey;
 
+  /**
+   * Constructor de la clase Block
+   * @param transaction transacción del bloque
+   */
   public Block(Transaction transaction) {
     this.id = ++idCounter;
     this.version = BlockConfig.VERSION;
@@ -31,6 +38,46 @@ public class Block {
     this.isValidated = false;
     this.hash = null;
     this.prevBlock = null;
+    this.minerKey = null;
+  }
+
+  /**
+   * Constructor de la clase Block
+   * @param transaction transacción del bloque
+   * @param prevBlock bloque anterior
+   * @param minerKey public key de la cartera del minero
+   */
+  public Block(Transaction transaction, Block prevBlock, String minerKey) {
+    this.id = ++idCounter;
+    this.version = BlockConfig.VERSION;
+    this.nonce = (int) (new Random().nextInt(1000) + 1);
+    this.timestamp = (int) (new Date().getTime() / 1000);
+    this.difficulty = BlockConfig.DIFFICULTY;
+    this.transaction = transaction;
+    this.isValidated = false;
+    this.hash = null;
+    this.prevBlock = prevBlock;
+    this.minerKey = minerKey;
+  }
+
+  @Override
+  public String toString() {
+    return String.format(
+      "id:" +
+      this.id +
+      ", v:" +
+      this.version +
+      ", nonce:" +
+      this.nonce +
+      ", ts:" +
+      this.timestamp +
+      ", diff:" +
+      this.difficulty +
+      " , hash:" +
+      this.hash +
+      ", minerKey:" +
+      this.minerKey
+    );
   }
 
   public int getVersion() {
@@ -73,5 +120,25 @@ public class Block {
    */
   public void setIsValidated(boolean isValidated) {
     this.isValidated = isValidated;
+  }
+
+  public void setHash(String hash) {
+    this.hash = hash;
+  }
+
+  public void setVersion(int version) {
+    this.version = version;
+  }
+
+  public String getMinerKey() {
+    return minerKey;
+  }
+
+  public void setMinerKey(String minerKey) {
+    this.minerKey = minerKey;
+  }
+
+  public int getId() {
+    return id;
   }
 }

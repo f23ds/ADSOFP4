@@ -2,7 +2,6 @@ package Components;
 
 import Exceptions.TransactionException;
 import Interfaces.*;
-import Notifications.TransactionNotification;
 import java.util.*;
 
 public class Node extends NetworkElement {
@@ -75,9 +74,16 @@ public class Node extends NetworkElement {
   @Override
   public void broadcast(IMessage msg) {
     msg.process(this);
-    if (msg.isTransactionNotification()) this.transactions.add(
-        msg.getTransactionNotification().getTransaction()
-      );
+    /* Si el mensjae es una TransactionNotification */
+    if (msg.isTransactionNotification()) {
+      Transaction tx = msg.getTransactionNotification().getTransaction();
+      /* Si está confirmada, la añadimos */
+      if (tx.isConfirmed()) {
+        this.transactions.add(
+            msg.getTransactionNotification().getTransaction()
+          );
+      }
+    }
   }
 
   public boolean isSubnet() {
