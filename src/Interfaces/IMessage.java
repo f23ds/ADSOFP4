@@ -1,7 +1,7 @@
 package Interfaces;
 
 import Components.*;
-import Notifications.TransactionNotification;
+import Notifications.*;
 
 /**
  * Interfaz para mensajes
@@ -40,4 +40,6 @@ public interface IMessage {
 
   public boolean isTransactionNotification();
   public TransactionNotification getTransactionNotification();
+  public boolean isValidateBlockRq();
+  public ValidateBlockRq getValidateBlockRq();
 }

@@ -5,6 +5,8 @@ import blockchain.utils.*;
 
 public class SimpleMining implements IMiningMethod {
 
+  private Block previousConfirmedBlock;
+
   @Override
   public String createHash(Block block) {
     Block prevBlock = block.getPrevBlock();
@@ -32,5 +34,19 @@ public class SimpleMining implements IMiningMethod {
     Block block = new Block(transaction, previousConfirmedBlock, minerKey);
     createHash(block);
     return block;
+  }
+
+  /**
+   * @return Block return the previousConfirmedBlock
+   */
+  public Block getPreviousConfirmedBlock() {
+    return previousConfirmedBlock;
+  }
+
+  /**
+   * @param previousConfirmedBlock the previousConfirmedBlock to set
+   */
+  public void setPreviousConfirmedBlock(Block previousConfirmedBlock) {
+    this.previousConfirmedBlock = previousConfirmedBlock;
   }
 }

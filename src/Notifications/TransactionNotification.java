@@ -37,6 +37,16 @@ public class TransactionNotification implements IMessage {
     return this;
   }
 
+  @Override
+  public boolean isValidateBlockRq() {
+    return false;
+  }
+
+  @Override
+  public ValidateBlockRq getValidateBlockRq() {
+    return null;
+  }
+
   public void process(Node n) {
     System.out.println(
       "[" +

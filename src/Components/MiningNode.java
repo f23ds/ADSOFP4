@@ -13,13 +13,12 @@ public class MiningNode extends Node {
   private double capacity; // En MIPS
   private List<Block> blocks;
   private SimpleMining miningMethod;
-  private Block previousConfirmedBlock;
 
   public MiningNode(Wallet wallet, double capacity) {
     super(wallet);
     this.capacity = capacity;
     this.blocks = new ArrayList<Block>();
-    this.previousConfirmedBlock = null;
+    this.miningMethod = null;
   }
 
   @Override
@@ -40,23 +39,25 @@ public class MiningNode extends Node {
     return blocks;
   }
 
+  private void mineFromTx(Transaction tx) {
+    this.miningMethod = new SimpleMining();
+    String minerKey = this.getWallet().getPublicKey();
+    Block block = this.miningMethod.mineBlock(tx, this.miningMethod.getPreviousConfirmedBlock(), minerKey);
+    blocks.add(block);
+    this.miningMethod.setPreviousConfirmedBlock(block);
+    System.out.println(
+      String.format(
+        "[" + this.fullName() + "] Mined block: " + block.toString()
+      )
+    );
+  }
+
   @Override
   public void broadcast(IMessage msg) {
     super.broadcast(msg);
     if (msg.isTransactionNotification()) {
       Transaction tx = msg.getTransactionNotification().getTransaction();
-      if (!tx.isConfirmed()) {
-        SimpleMining sm = new SimpleMining();
-        String minerKey = this.getWallet().getPublicKey();
-        Block block = sm.mineBlock(tx, this.previousConfirmedBlock, minerKey);
-        blocks.add(block);
-        previousConfirmedBlock = block;
-        System.out.println(
-          String.format(
-            "[" + this.fullName() + "] Mined block: " + block.toString()
-          )
-        );
-      }
+      if (!tx.isConfirmed()) this.mineFromTx(tx);
     }
   }
 
@@ -67,19 +68,4 @@ public class MiningNode extends Node {
   public void setMiningMethod(SimpleMining simpleMining) {
     this.miningMethod = simpleMining;
   }
-
-    /**
-     * @return Block return the previousConfirmedBlock
-     */
-    public Block getPreviousConfirmedBlock() {
-        return previousConfirmedBlock;
-    }
-
-    /**
-     * @param previousConfirmedBlock the previousConfirmedBlock to set
-     */
-    public void setPreviousConfirmedBlock(Block previousConfirmedBlock) {
-        this.previousConfirmedBlock = previousConfirmedBlock;
-    }
-
 }
