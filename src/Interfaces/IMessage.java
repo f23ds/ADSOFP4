@@ -17,29 +17,48 @@ public interface IMessage {
 
   /**
    * Procesamiento por un nodo
-   * @param n nodo
+   * @param element elemento de la red
    */
   public default void process(NetworkElement element) {
-    boolean isNode = element.isNode() ? true : false;
     String msg = this.getMessage();
+    boolean isNode = element.isNode() ? true : false;
+    String out = "";
 
-    System.out.println(
-      "[" +
-      element.fullName() +
-      "] " +
-      (
-        isNode
-          ? " - Received notification - Nex Tx: " + msg
-          : msg +
-          "\nBroadcasting to " +
-          element.getSubnet().getNodes().size() +
-          " nodes:"
-      )
-    );
+    if (this.isTransactionNotification()) {
+      out =
+        String.format(
+          isNode
+            ? "- Received notification - Nex Tx: " + msg
+            : msg +
+            "\nBroadcasting to " +
+            element.getSubnet().getNodes().size() +
+            " nodes:"
+        );
+    }
+
+    if (this.isValidateBlockRq()) {
+      out =
+        String.format(
+          isNode
+            ? "Received task: ValidateBlockRq: " + msg
+            : "ValidateBlockRq\nBroadcasting to " +
+            element.getSubnet().getNodes().size() +
+            " nodes:"
+        );
+    }
+
+    System.out.println("[" + element.fullName() + "] " + out);
   }
 
   public boolean isTransactionNotification();
+
   public TransactionNotification getTransactionNotification();
+
   public boolean isValidateBlockRq();
+
   public ValidateBlockRq getValidateBlockRq();
+
+  public boolean isValidateBlockRes();
+
+  public ValidateBlockRes getValidateBlockRes();
 }

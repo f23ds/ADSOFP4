@@ -1,6 +1,6 @@
 package Interfaces;
 
-import Components.Block;
+import Components.*;
 
 public interface IValidateMethod {
   public boolean validate(IMiningMethod miningMethod, Block block);

@@ -47,29 +47,17 @@ public class TransactionNotification implements IMessage {
     return null;
   }
 
-  public void process(Node n) {
-    System.out.println(
-      "[" +
-      n.fullName() +
-      "]" +
-      " - Received notification - Nex Tx: " +
-      this.getMessage()
-    );
-  }
-
-  public void process(Subnet s) {
-    System.out.println(
-      "[" +
-      s.fullName() +
-      "] " +
-      this.getMessage() +
-      "\nBroadcasting to " +
-      s.getNodes().size() +
-      " nodes:"
-    );
-  }
-
   public Transaction getTransaction() {
     return transaction;
+  }
+
+  @Override
+  public boolean isValidateBlockRes() {
+    return false;
+  }
+
+  @Override
+  public ValidateBlockRes getValidateBlockRes() {
+    return null;
   }
 }

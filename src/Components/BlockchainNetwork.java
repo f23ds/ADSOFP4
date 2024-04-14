@@ -61,12 +61,14 @@ public class BlockchainNetwork implements IConnectable {
         throw new DuplicateConnectionException(node);
       }
 
+      node.setParent(this);
       /* Añadimos el nodo al array de nodos */
       System.out.println(connectedStr + node.toString());
     }
 
     if (element.isSubnet()) {
       subnet = element.getSubnet();
+      subnet.setParent(this);
 
       System.out.println(connectedStr + subnet.toString());
     }

@@ -1,24 +1,23 @@
 package Notifications;
 
 import Components.*;
-import Components.MiningNode;
 import Interfaces.IMessage;
 
-public class ValidateBlockRq implements IMessage {
+public class ValidateBlockRes implements IMessage {
 
-  private Block block;
-  private MiningNode miningNode;
+  Block block;
+  boolean isValidated;
 
-  public ValidateBlockRq(Block block, MiningNode miningNode) {
+  public ValidateBlockRes(Block block, boolean isValidated) {
     this.block = block;
-    this.miningNode = miningNode;
+    this.isValidated = isValidated;
   }
 
   @Override
   public String getMessage() {
-    return String.format(
-      "<b:" + block.getId() + ", src:%03d" + ">",
-      miningNode.getId()
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException(
+      "Unimplemented method 'getMessage'"
     );
   }
 
@@ -34,29 +33,21 @@ public class ValidateBlockRq implements IMessage {
 
   @Override
   public boolean isValidateBlockRq() {
-    return true;
-  }
-
-  @Override
-  public ValidateBlockRq getValidateBlockRq() {
-    return this;
-  }
-
-  public Block getBlock() {
-    return block;
-  }
-
-  public MiningNode getMiningNode() {
-    return miningNode;
-  }
-
-  @Override
-  public boolean isValidateBlockRes() {
     return false;
   }
 
   @Override
-  public ValidateBlockRes getValidateBlockRes() {
+  public ValidateBlockRq getValidateBlockRq() {
     return null;
+  }
+
+  @Override
+  public boolean isValidateBlockRes() {
+    return true;
+  }
+
+  @Override
+  public ValidateBlockRes getValidateBlockRes() {
+    return this;
   }
 }
