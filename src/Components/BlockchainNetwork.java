@@ -32,17 +32,12 @@ public class BlockchainNetwork implements IConnectable {
    * @return devuleve la red construida
    * @throws ConnectionException para nodos ya conectados
    * @throws DuplicateConnectionException para nodos conectados a otras redes o subredes
-   * @throws NullPointerException para argumentos nulos
    */
   public BlockchainNetwork connect(NetworkElement element)
-    throws ConnectionException, DuplicateConnectionException, NullPointerException {
+    throws ConnectionException, DuplicateConnectionException {
     String connectedStr = String.format("%s - new peer connected: ", this.name);
     Node node;
     Subnet subnet;
-
-    if (element == null) throw new NullPointerException(
-      "El elemento no puede ser nulo"
-    );
 
     if (element.isNode()) {
       node = element.getNode();

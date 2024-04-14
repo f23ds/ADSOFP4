@@ -21,9 +21,11 @@ public interface IMessage {
    */
   public default void process(NetworkElement element) {
     String msg = this.getMessage();
-    boolean isNode = element.isNode() ? true : false;
-    boolean isMiningNode = element.isMiningNode() ? true : false;
     String out = "";
+    boolean isNode = element.isNode() ? true : false;
+    boolean isMiningNode = false;
+
+    if (isNode) if (element.isMiningNode()) isMiningNode = true;
 
     if (this.isTransactionNotification()) {
       out =
@@ -49,14 +51,11 @@ public interface IMessage {
     }
 
     if (this.isValidateBlockRes()) {
-      out =
-        String.format(
-          isMiningNode
-            ? "Emitted Task: ValidateBlockRes: " + msg
-            : "ValidateBlockRes\nBroadcasting to " +
-            element.getSubnet().getNodes().size() +
-            " nodes:"
-        );
+      if (isMiningNode) out = "Emitted Task: ValidateBlockRes: " + msg;
+      if (!isNode) out =
+        "ValidateBlockRes\nBroadcasting to " +
+        element.getSubnet().getNodes().size() +
+        " nodes:";
     }
 
     System.out.println("[" + element.fullName() + "] " + out);
