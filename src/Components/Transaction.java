@@ -1,5 +1,6 @@
 package Components;
 
+
 /**
  * Clase para dar soporte a una Transaccion de Blockchain
  *
@@ -12,7 +13,7 @@ public class Transaction {
   private String pkEmisor;
   private String pkReceiver;
   private int value;
-  private boolean isConfirmed;
+  private TransactionStatus txStatus;
 
   /**
    * Constructor para la clase Transaction
@@ -24,7 +25,7 @@ public class Transaction {
     this.pkEmisor = walletE.getPublicKey();
     this.pkReceiver = walletR.getPublicKey();
     this.value = value;
-    this.isConfirmed = false;
+    this.txStatus = TransactionStatus.NOT_CONFIRMED;
   }
 
   @Override
@@ -47,22 +48,6 @@ public class Transaction {
     return id;
   }
 
-  public String getpkEmisor() {
-    return pkEmisor;
-  }
-
-  public void setpkEmisor(String pkEmisor) {
-    this.pkEmisor = pkEmisor;
-  }
-
-  public String getpkReceiver() {
-    return pkReceiver;
-  }
-
-  public void setpkReceiver(String pkReceiver) {
-    this.pkReceiver = pkReceiver;
-  }
-
   public int getValue() {
     return value;
   }
@@ -71,11 +56,29 @@ public class Transaction {
     this.value = value;
   }
 
-  public boolean isConfirmed() {
-    return isConfirmed;
+  public TransactionStatus getTxStatus() {
+    return txStatus;
   }
 
-  public void setConfirmed(boolean isConfirmed) {
-    this.isConfirmed = isConfirmed;
+  public void setTxStatus(TransactionStatus txStatus) {
+    this.txStatus = txStatus;
   }
+
+  public String getPkEmisor() {
+    return pkEmisor;
+  }
+
+  public void setPkEmisor(String pkEmisor) {
+    this.pkEmisor = pkEmisor;
+  }
+
+  public String getPkReceiver() {
+    return pkReceiver;
+  }
+
+  public void setPkReceiver(String pkReceiver) {
+    this.pkReceiver = pkReceiver;
+  }
+
+  
 }

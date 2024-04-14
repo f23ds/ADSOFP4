@@ -38,18 +38,12 @@ public class Subnet extends NetworkElement {
     nodes.stream().forEach(n -> n.broadcast(msg));
   }
 
+  @Override
   public boolean isSubnet() {
     return true;
   }
 
-  public boolean isNode() {
-    return false;
-  }
-
-  public Node getNode() {
-    return null;
-  }
-
+  @Override
   public Subnet getSubnet() {
     return this;
   }

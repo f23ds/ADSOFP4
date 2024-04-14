@@ -7,17 +7,19 @@ public class ValidateBlockRes implements IMessage {
 
   Block block;
   boolean isValidated;
+  int src;
 
-  public ValidateBlockRes(Block block, boolean isValidated) {
+  public ValidateBlockRes(Block block, boolean isValidated, int src) {
     this.block = block;
     this.isValidated = isValidated;
+    this.src = src;
   }
 
   @Override
   public String getMessage() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException(
-      "Unimplemented method 'getMessage'"
+    return String.format(
+      "<b:" + block.getId() + ", res:" + isValidated + ", src:%03d" + ">",
+      src
     );
   }
 

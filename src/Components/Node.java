@@ -23,6 +23,7 @@ public class Node extends NetworkElement {
    * Función para devolver el nombre completo formateado del nodo
    * @return string con el nombre completo formateado
    */
+  @Override
   public String fullName() {
     return String.format("Node#%03d", this.id);
   }
@@ -78,7 +79,7 @@ public class Node extends NetworkElement {
     if (msg.isTransactionNotification()) {
       Transaction tx = msg.getTransactionNotification().getTransaction();
       /* Si está confirmada, la añadimos */
-      if (tx.isConfirmed()) {
+      if (tx.getTxStatus() == TransactionStatus.CONFIRMED) {
         this.transactions.add(
             msg.getTransactionNotification().getTransaction()
           );
@@ -86,20 +87,14 @@ public class Node extends NetworkElement {
     }
   }
 
-  public boolean isSubnet() {
-    return false;
-  }
-
+  @Override
   public boolean isNode() {
     return true;
   }
 
+  @Override
   public Node getNode() {
     return this;
-  }
-
-  public Subnet getSubnet() {
-    return null;
   }
 
   @Override

@@ -22,6 +22,7 @@ public interface IMessage {
   public default void process(NetworkElement element) {
     String msg = this.getMessage();
     boolean isNode = element.isNode() ? true : false;
+    boolean isMiningNode = element.isMiningNode() ? true : false;
     String out = "";
 
     if (this.isTransactionNotification()) {
@@ -40,8 +41,19 @@ public interface IMessage {
       out =
         String.format(
           isNode
-            ? "Received task: ValidateBlockRq: " + msg
+            ? "Received Task: ValidateBlockRq: " + msg
             : "ValidateBlockRq\nBroadcasting to " +
+            element.getSubnet().getNodes().size() +
+            " nodes:"
+        );
+    }
+
+    if (this.isValidateBlockRes()) {
+      out =
+        String.format(
+          isMiningNode
+            ? "Emitted Task: ValidateBlockRes: " + msg
+            : "ValidateBlockRes\nBroadcasting to " +
             element.getSubnet().getNodes().size() +
             " nodes:"
         );

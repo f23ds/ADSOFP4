@@ -35,11 +35,29 @@ public abstract class NetworkElement implements IConnectable {
     this.parent = parent;
   }
 
-  public abstract boolean isSubnet();
-  public abstract boolean isNode();
-
-  public abstract Node getNode();
-  public abstract Subnet getSubnet();
-
   public abstract String fullName();
+
+  public boolean isSubnet() {
+    return false;
+  }
+
+  public boolean isNode() {
+    return false;
+  }
+
+  public boolean isMiningNode() {
+    return false;
+  }
+
+  public Subnet getSubnet() {
+    return null;
+  }
+
+  public Node getNode() {
+    return null;
+  }
+
+  public MiningNode getMiningNode() {
+    return null;
+  }
 }

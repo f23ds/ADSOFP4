@@ -1,6 +1,7 @@
 package Components;
 
 import Interfaces.*;
+import Notifications.ValidateBlockRes;
 import Notifications.ValidateBlockRq;
 import java.util.*;
 
@@ -51,6 +52,8 @@ public class MiningNode extends Node {
     );
     blocks.add(block);
     miningMethod.setPreviousConfirmedBlock(block);
+    tx.setTxStatus(TransactionStatus.PENDING);
+
     System.out.println(
       String.format(
         "[" + this.fullName() + "] Mined block: " + block.toString()
@@ -66,7 +69,10 @@ public class MiningNode extends Node {
     IConnectable network = this.getTopParent();
     if (msg.isTransactionNotification()) {
       Transaction tx = msg.getTransactionNotification().getTransaction();
-      if (!tx.isConfirmed() && miningMethod != null) {
+      if (
+        tx.getTxStatus() == TransactionStatus.NOT_CONFIRMED &&
+        miningMethod != null
+      ) {
         Block blockToValidate = this.mineFromTx(tx);
         network.broadcast(new ValidateBlockRq(blockToValidate, this));
       }
@@ -76,15 +82,16 @@ public class MiningNode extends Node {
         System.out.println(
           "[" + this.fullName() + "] You cannot validate your own block"
         );
-        return;
       }
-      boolean isValidated = validateMethod.validate(
-        miningMethod,
-        msg.getValidateBlockRq().getBlock()
-      );
-      network.broadcast(msg);
-
+      Block block = msg.getValidateBlockRq().getBlock();
+      boolean isValidated = validateMethod.validate(miningMethod, block);
+      network.broadcast(new ValidateBlockRes(block, isValidated, this.getId()));
     }
+  }
+
+  @Override
+  public boolean isMiningNode() {
+    return true;
   }
 
   public SimpleMining getMiningMethod() {
