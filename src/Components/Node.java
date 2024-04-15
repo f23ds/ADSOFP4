@@ -51,20 +51,20 @@ public class Node extends NetworkElement {
 
   /**
    * Función para crear una transacción desde la cartera del nodo a otra cartera
-   * @param String con la public key de la cartera del destinatario
+   * @param publicKeyD con la public key de la cartera del destinatario
    * @param value valor de la transacción
    * @return transacción creada
    * @throws TransactionException para errores al crear la transacción
    */
-  public Transaction createTransaction(String publicKey, int value)
+  public Transaction createTransaction(String publicKeyD, int value)
     throws TransactionException {
     if (value < 0) throw new TransactionException(
-      this.getWallet().getPublicKey(),
-      publicKey,
+      wallet.getPublicKey(),
+      publicKeyD,
       value
     );
     /* Creamos la transacción */
-    Transaction transaction = new Transaction(this.getWallet(), wallet, value);
+    Transaction transaction = new Transaction(wallet.getPublicKey(), publicKeyD, value);
 
     /* La devolvemos */
     return transaction;
@@ -76,15 +76,15 @@ public class Node extends NetworkElement {
   public void broadcast(IMessage msg) {
     msg.process(this);
     /* Si el mensjae es una TransactionNotification */
-    if (msg.isTransactionNotification()) {
-      Transaction tx = msg.getTransactionNotification().getTransaction();
-      /* Si está confirmada, la añadimos */
-      if (tx.getTxStatus() == TransactionStatus.CONFIRMED) {
-        this.transactions.add(
-            msg.getTransactionNotification().getTransaction()
-          );
-      }
-    }
+    // if (msg.isTransactionNotification()) {
+    //   Transaction tx = msg.getTransactionNotification().getTransaction();
+    //   /* Si está confirmada, la añadimos */
+    //   if (tx.getTxStatus() == TransactionStatus.CONFIRMED) {
+    //     this.transactions.add(
+    //         msg.getTransactionNotification().getTransaction()
+    //       );
+    //   }
+    // }
   }
 
   @Override

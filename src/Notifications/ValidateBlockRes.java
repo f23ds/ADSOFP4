@@ -24,26 +24,6 @@ public class ValidateBlockRes implements IMessage {
   }
 
   @Override
-  public boolean isTransactionNotification() {
-    return false;
-  }
-
-  @Override
-  public TransactionNotification getTransactionNotification() {
-    return null;
-  }
-
-  @Override
-  public boolean isValidateBlockRq() {
-    return false;
-  }
-
-  @Override
-  public ValidateBlockRq getValidateBlockRq() {
-    return null;
-  }
-
-  @Override
   public boolean isValidateBlockRes() {
     return true;
   }
@@ -51,5 +31,17 @@ public class ValidateBlockRes implements IMessage {
   @Override
   public ValidateBlockRes getValidateBlockRes() {
     return this;
+  }
+
+  public Block getBlock() {
+    return block;
+  }
+
+  public boolean isValidated() {
+    return isValidated;
+  }
+
+  public int getSrc() {
+    return src;
   }
 }

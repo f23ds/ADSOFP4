@@ -37,27 +37,7 @@ public class TransactionNotification implements IMessage {
     return this;
   }
 
-  @Override
-  public boolean isValidateBlockRq() {
-    return false;
-  }
-
-  @Override
-  public ValidateBlockRq getValidateBlockRq() {
-    return null;
-  }
-
   public Transaction getTransaction() {
     return transaction;
-  }
-
-  @Override
-  public boolean isValidateBlockRes() {
-    return false;
-  }
-
-  @Override
-  public ValidateBlockRes getValidateBlockRes() {
-    return null;
   }
 }

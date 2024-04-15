@@ -56,7 +56,7 @@ public class MiningNode extends Node {
 
     System.out.println(
       String.format(
-        "[" + this.fullName() + "] Mined block: " + block.toString()
+        "[" + this.fullName() + "] " + "Mined block: " + block.toString()
       )
     );
 
@@ -80,11 +80,26 @@ public class MiningNode extends Node {
     if (msg.isValidateBlockRq() && validateMethod != null) {
       if (msg.getValidateBlockRq().getMiningNode() == this) {
         System.out.println(
-          "[" + this.fullName() + "] You cannot validate your own block"
+          "[" + this.fullName() + "] " + "You cannot validate your own block"
         );
+        return;
       }
       Block block = msg.getValidateBlockRq().getBlock();
       boolean isValidated = validateMethod.validate(miningMethod, block);
+      System.out.println(
+        String.format(
+          "[" +
+          this.fullName() +
+          "] " +
+          "Emitted task: ValidateBlockRes: <b:" +
+          block.getId() +
+          ", res:" +
+          isValidated +
+          ", src:%03d" +
+          ">",
+          this.getId()
+        )
+      );
       network.broadcast(new ValidateBlockRes(block, isValidated, this.getId()));
     }
   }
@@ -92,6 +107,11 @@ public class MiningNode extends Node {
   @Override
   public boolean isMiningNode() {
     return true;
+  }
+
+  @Override
+  public MiningNode getMiningNode() {
+    return this;
   }
 
   public SimpleMining getMiningMethod() {

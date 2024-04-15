@@ -23,9 +23,6 @@ public interface IMessage {
     String msg = this.getMessage();
     String out = "";
     boolean isNode = element.isNode() ? true : false;
-    boolean isMiningNode = false;
-
-    if (isNode) if (element.isMiningNode()) isMiningNode = true;
 
     if (this.isTransactionNotification()) {
       out =
@@ -51,25 +48,40 @@ public interface IMessage {
     }
 
     if (this.isValidateBlockRes()) {
-      if (isMiningNode) out = "Emitted Task: ValidateBlockRes: " + msg;
-      if (!isNode) out =
-        "ValidateBlockRes\nBroadcasting to " +
-        element.getSubnet().getNodes().size() +
-        " nodes:";
+      out =
+        String.format(
+          isNode
+            ? "Received Task: ValidateBlockRes: " + msg
+            : "ValidateBlockRes\nBroadcasting to " +
+            element.getSubnet().getNodes().size() +
+            " nodes:"
+        );
     }
 
     System.out.println("[" + element.fullName() + "] " + out);
   }
 
-  public boolean isTransactionNotification();
+  public default boolean isTransactionNotification() {
+    return false;
+  }
 
-  public TransactionNotification getTransactionNotification();
+  public default TransactionNotification getTransactionNotification() {
+    return null;
+  }
 
-  public boolean isValidateBlockRq();
+  public default boolean isValidateBlockRq() {
+    return false;
+  }
 
-  public ValidateBlockRq getValidateBlockRq();
+  public default ValidateBlockRq getValidateBlockRq() {
+    return null;
+  }
 
-  public boolean isValidateBlockRes();
+  public default boolean isValidateBlockRes() {
+    return false;
+  }
 
-  public ValidateBlockRes getValidateBlockRes();
+  public default ValidateBlockRes getValidateBlockRes() {
+    return null;
+  }
 }

@@ -28,6 +28,19 @@ public class Transaction {
     this.txStatus = TransactionStatus.NOT_CONFIRMED;
   }
 
+    /**
+   * Constructor para la clase Transaction
+   * @param walletE cartera emisora
+   * @param walletR cartera receptora
+   * @param value valor de la transacción
+   */
+  public Transaction(String publicKeyE, String publicKeyR, int value) {
+    this.pkEmisor = publicKeyE;
+    this.pkReceiver = publicKeyR;
+    this.value = value;
+    this.txStatus = TransactionStatus.NOT_CONFIRMED;
+  }
+
   @Override
   public String toString() {
     return (
