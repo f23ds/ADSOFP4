@@ -1,8 +1,7 @@
 package Components;
 
 import Interfaces.*;
-import Notifications.ValidateBlockRes;
-import Notifications.ValidateBlockRq;
+import Notifications.*;
 import java.util.*;
 
 /**
@@ -13,14 +12,13 @@ import java.util.*;
 public class MiningNode extends Node {
 
   private double capacity; // En MIPS
-  private List<Block> blocks;
+  private static List<Block> blocks = new ArrayList<Block>();
   private SimpleMining miningMethod;
   private SimpleValidate validateMethod;
 
   public MiningNode(Wallet wallet, double capacity) {
     super(wallet);
     this.capacity = capacity;
-    this.blocks = new ArrayList<Block>();
     this.miningMethod = null;
     this.validateMethod = null;
   }
@@ -43,65 +41,76 @@ public class MiningNode extends Node {
     return blocks;
   }
 
-  private Block mineFromTx(Transaction tx) {
-    String minerKey = this.getWallet().getPublicKey();
-    Block block = miningMethod.mineBlock(
-      tx,
-      miningMethod.getPreviousConfirmedBlock(),
-      minerKey
-    );
-    blocks.add(block);
-    miningMethod.setPreviousConfirmedBlock(block);
-    tx.setTxStatus(TransactionStatus.PENDING);
-
-    System.out.println(
-      String.format(
-        "[" + this.fullName() + "] " + "Mined block: " + block.toString()
-      )
-    );
-
-    return block;
+  public Block getPreviousConfirmedBlock() {
+    return blocks.isEmpty() ? null : blocks.get(blocks.size() - 1);
   }
 
   @Override
-  public void broadcast(IMessage msg) {
-    super.broadcast(msg);
+  public void handleTransactionNotification(TransactionNotification txNoti) {
+    Transaction tx = txNoti.getTransaction();
     IConnectable network = this.getTopParent();
-    if (msg.isTransactionNotification()) {
-      Transaction tx = msg.getTransactionNotification().getTransaction();
-      if (
-        tx.getTxStatus() == TransactionStatus.NOT_CONFIRMED &&
-        miningMethod != null
-      ) {
-        Block blockToValidate = this.mineFromTx(tx);
-        network.broadcast(new ValidateBlockRq(blockToValidate, this));
-      }
+
+    if (this.getTransactions().contains(tx)) {
+      System.out.println(
+        "[" +
+        this.fullName() +
+        "] Transaction already confirmed: Tx-" +
+        tx.getId()
+      );
     }
-    if (msg.isValidateBlockRq() && validateMethod != null) {
-      if (msg.getValidateBlockRq().getMiningNode() == this) {
+
+    if (!this.getTransactions().contains(tx) && miningMethod != null) {
+      String minkerKey = this.getWallet().getPublicKey();
+      Block block = miningMethod.mineBlock(
+        tx,
+        this.getPreviousConfirmedBlock(),
+        minkerKey
+      );
+
+      blocks.add(block);
+      block.setPrevBlock(block);
+
+      System.out.println(
+        String.format(
+          "[" + this.fullName() + "] " + "Mined block: " + block.toString()
+        )
+      );
+      network.broadcast(new ValidateBlockRq(block, this));
+    }
+  }
+
+  @Override
+  public void handleValidateBlockRq(ValidateBlockRq blockRqNoti) {
+    IConnectable network = this.getTopParent();
+
+    if (validateMethod != null) {
+      if (blockRqNoti.getMiningNode() == this) {
         System.out.println(
           "[" + this.fullName() + "] " + "You cannot validate your own block"
         );
         return;
       }
-      Block block = msg.getValidateBlockRq().getBlock();
-      boolean isValidated = validateMethod.validate(miningMethod, block);
-      System.out.println(
-        String.format(
-          "[" +
-          this.fullName() +
-          "] " +
-          "Emitted task: ValidateBlockRes: <b:" +
-          block.getId() +
-          ", res:" +
-          isValidated +
-          ", src:%03d" +
-          ">",
-          this.getId()
-        )
-      );
-      network.broadcast(new ValidateBlockRes(block, isValidated, this.getId()));
     }
+    Block block = blockRqNoti.getBlock();
+    boolean isValidated = validateMethod.validate(miningMethod, block);
+    block.setIsValidated(isValidated);
+
+    System.out.println(
+      String.format(
+        "[" +
+        this.fullName() +
+        "] " +
+        "Emitted Task: ValidateBlockRes <b:" +
+        block.getId() +
+        ", res:" +
+        block.isIsValidated() +
+        ", src:%03d" +
+        ">",
+        this.getId()
+      )
+    );
+
+    network.broadcast(new ValidateBlockRes(block, isValidated, this.getId()));
   }
 
   @Override
@@ -114,6 +123,7 @@ public class MiningNode extends Node {
     return this;
   }
 
+  @Override
   public SimpleMining getMiningMethod() {
     return this.miningMethod;
   }

@@ -34,7 +34,15 @@ public class Subnet extends NetworkElement {
 
   @Override
   public void broadcast(IMessage msg) {
-    msg.process(this);
+    System.out.println(
+      "[" +
+      this.fullName() +
+      "] " +
+      msg.getMessage() +
+      "\nBroadcasting to " +
+      nodes.size() +
+      " nodes:"
+    );
     nodes.stream().forEach(n -> n.broadcast(msg));
   }
 
@@ -47,9 +55,6 @@ public class Subnet extends NetworkElement {
   public Subnet getSubnet() {
     return this;
   }
-
-  /* ----------------------------- MÉTODOS DE IMESSAGE ----------------------------- */
-
 
   @Override
   public String toString() {

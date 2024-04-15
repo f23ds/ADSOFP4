@@ -4,39 +4,55 @@ import Components.*;
 import Interfaces.IMessage;
 
 /**
- * Clase para dar soporte a las notificaciones de las transacciones.
- * Se encarga de notificar a la red la creación de una nueva transacción.
- * Deben ser recibidos y gestionados por los nodos
- *
- * @author Fabio Desio Alba López
+ * Clase para representar las notificaciones de transacciones.
+ * Estas notificaciones informan a la red sobre la creación de una nueva transacción.
+ * Deben ser recibidas y gestionadas por los nodos.
+ * 
+ * @author Fabio Desio y Alba López
  */
 public class TransactionNotification implements IMessage {
 
+  /** La transacción asociada a la notificación */
   private Transaction transaction;
 
   /**
-   * Constructor de la clase TransactionNotification
-   * @param transaction transacción
+   * Constructor de la clase TransactionNotification.
+   * @param transaction la transacción asociada a la notificación
    */
   public TransactionNotification(Transaction transaction) {
     this.transaction = transaction;
   }
 
+  /**
+   * Procesa la notificación en un nodo.
+   * @param n el nodo que procesa la notificación
+   */
+  @Override
+  public void process(Node n) {
+    System.out.println(
+      "[" +
+      n.fullName() +
+      "]" +
+      " - Received notification - Nex Tx: " +
+      this.getMessage()
+    );
+
+    n.handleTransactionNotification(this);
+  }
+
+  /**
+   * Obtiene el mensaje de la notificación.
+   * @return el mensaje de la notificación
+   */
   @Override
   public String getMessage() {
     return transaction.toString();
   }
 
-  @Override
-  public boolean isTransactionNotification() {
-    return true;
-  }
-
-  @Override
-  public TransactionNotification getTransactionNotification() {
-    return this;
-  }
-
+  /**
+   * Obtiene la transacción asociada a la notificación.
+   * @return la transacción asociada a la notificación
+   */
   public Transaction getTransaction() {
     return transaction;
   }

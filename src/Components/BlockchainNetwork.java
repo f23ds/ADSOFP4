@@ -14,12 +14,15 @@ import java.util.stream.Collectors;
  */
 public class BlockchainNetwork implements IConnectable {
 
+  /** Nombre de la red */
   private String name;
+
+  /** Lista de elementos de la red */
   private ArrayList<NetworkElement> elements;
 
   /**
    * Constructor para la clase BlockchainNetwork
-   * @param name
+   * @param name el nombre de la red
    */
   public BlockchainNetwork(String name) {
     this.name = name;
@@ -27,11 +30,11 @@ public class BlockchainNetwork implements IConnectable {
   }
 
   /**
-   * Método para añadir nodos, nodos mineros o subredes a la red de blockhain
+   * Método para añadir nodos, nodos mineros o subredes a la red de blockchain
    * @param element elemento genérico a añadir
-   * @return devuleve la red construida
-   * @throws ConnectionException para nodos ya conectados
-   * @throws DuplicateConnectionException para nodos conectados a otras redes o subredes
+   * @return devuelve la red construida
+   * @throws ConnectionException si el elemento ya está conectado
+   * @throws DuplicateConnectionException si el elemento está conectado a otras redes o subredes
    */
   public BlockchainNetwork connect(NetworkElement element)
     throws ConnectionException, DuplicateConnectionException {
@@ -41,10 +44,10 @@ public class BlockchainNetwork implements IConnectable {
 
     if (element.isNode()) {
       node = element.getNode();
-      /* Consideramos la excepción en la que ya se encuentra el nodo conectado */
+      // Consideramos la excepción en la que ya se encuentra el nodo conectado
       if (elements.contains(element)) throw new ConnectionException(node);
 
-      /* Consideramos la excepción en la que el nodo está conectado a otra red */
+      // Consideramos la excepción en la que el nodo está conectado a otra red
       Optional<Subnet> probSubnet = elements
         .stream()
         .filter(NetworkElement::isSubnet)
@@ -57,7 +60,7 @@ public class BlockchainNetwork implements IConnectable {
       }
 
       node.setParent(this);
-      /* Añadimos el nodo al array de nodos */
+      // Añadimos el nodo al array de nodos
       System.out.println(connectedStr + node.toString());
     }
 
@@ -105,14 +108,26 @@ public class BlockchainNetwork implements IConnectable {
 
   /* GETTERS AND SETTERS */
 
+  /**
+   * Obtiene el nombre de la red.
+   * @return el nombre de la red
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Establece el nombre de la red.
+   * @param name el nuevo nombre de la red
+   */
   public void setName(String name) {
     this.name = name;
   }
 
+  /**
+   * Obtiene la lista de nodos en la red.
+   * @return la lista de nodos en la red
+   */
   public List<Node> getNodes() {
     return elements
       .stream()
@@ -121,6 +136,10 @@ public class BlockchainNetwork implements IConnectable {
       .collect(Collectors.toList());
   }
 
+  /**
+   * Obtiene la lista de subredes en la red.
+   * @return la lista de subredes en la red
+   */
   public List<Subnet> getSubnets() {
     return elements
       .stream()
