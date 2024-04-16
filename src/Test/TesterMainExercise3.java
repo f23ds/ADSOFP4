@@ -1,6 +1,8 @@
 package Test;
 
-import Components.*;
+import Block.SimpleMining;
+import Block.SimpleValidate;
+import Network.*;
 import Notifications.TransactionNotification;
 
 public class TesterMainExercise3 extends TesterMainExercise2 {

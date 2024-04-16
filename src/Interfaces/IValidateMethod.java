@@ -1,6 +1,7 @@
 package Interfaces;
 
-import Components.*;
+import Block.Block;
+import Network.*;
 
 /**
  * Interfaz para definir un método de validación para bloques.

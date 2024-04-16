@@ -1,7 +1,8 @@
-package Components;
+package Block;
 
 import blockchain.utils.BlockConfig;
 import java.util.*;
+import Network.Transaction;
 
 /**
  * Clase para dar soporte a los bloques de la red

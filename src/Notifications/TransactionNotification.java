@@ -1,7 +1,7 @@
 package Notifications;
 
-import Components.*;
 import Interfaces.IMessage;
+import Network.*;
 
 /**
  * Clase para representar las notificaciones de transacciones.

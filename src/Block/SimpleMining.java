@@ -1,6 +1,7 @@
-package Components;
+package Block;
 
 import Interfaces.IMiningMethod;
+import Network.Transaction;
 import blockchain.utils.*;
 
 /**

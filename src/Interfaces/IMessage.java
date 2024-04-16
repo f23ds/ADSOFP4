@@ -1,6 +1,6 @@
 package Interfaces;
 
-import Components.*;
+import Network.*;
 /**
  * Interfaz para mensajes
  *

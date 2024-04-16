@@ -1,9 +1,12 @@
-package Components;
+package Network;
 
 import Exceptions.TransactionException;
 import Interfaces.*;
 import Notifications.*;
 import java.util.*;
+
+import Block.Block;
+import Block.SimpleMining;
 
 /**
  * Clase que representa un nodo en la red.

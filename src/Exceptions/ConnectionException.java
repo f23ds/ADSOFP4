@@ -1,6 +1,6 @@
 package Exceptions;
 
-import Components.*;
+import Network.*;
 
 /**
  * Excepción que surge al tratar de añadir un nodo que ya está en la red

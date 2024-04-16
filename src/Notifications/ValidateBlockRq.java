@@ -1,7 +1,8 @@
 package Notifications;
 
-import Components.*;
+import Block.Block;
 import Interfaces.IMessage;
+import Network.*;
 
 /**
  * Clase de notificación para solicitar la validación de un bloque.

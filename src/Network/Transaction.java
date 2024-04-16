@@ -1,4 +1,4 @@
-package Components;
+package Network;
 
 /**
  * Clase para dar soporte a una Transaccion de Blockchain

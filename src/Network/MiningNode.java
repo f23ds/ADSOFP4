@@ -1,8 +1,12 @@
-package Components;
+package Network;
 
 import Interfaces.*;
 import Notifications.*;
 import java.util.*;
+
+import Block.Block;
+import Block.SimpleMining;
+import Block.SimpleValidate;
 
 /**
  * Clase para dar soporte a nodos mineros

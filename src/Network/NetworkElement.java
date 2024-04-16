@@ -1,4 +1,4 @@
-package Components;
+package Network;
 
 import Interfaces.IConnectable;
 

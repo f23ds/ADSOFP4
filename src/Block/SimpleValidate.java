@@ -1,4 +1,4 @@
-package Components;
+package Block;
 
 import Interfaces.IMiningMethod;
 import Interfaces.IValidateMethod;

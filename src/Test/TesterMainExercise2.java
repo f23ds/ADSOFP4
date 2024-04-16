@@ -1,6 +1,6 @@
 package Test;
 
-import Components.*;
+import Network.*;
 import Exceptions.*;
 import Notifications.*;
 
